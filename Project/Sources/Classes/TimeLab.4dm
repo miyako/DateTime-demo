@@ -223,7 +223,7 @@ Function applyResult($result : Object)
 		This.offsetText:="—"
 		This.statusKind:="error"
 		This.statusText:="✖ "+This.errorSummary($result)
-		This.statusDetail:=This.rejectHint()+" · exit "+String(This.exitCode)+" · JSON on stderr
+		This.statusDetail:=This.rejectHint()+" · exit "+String(This.exitCode)+" · JSON on stderr"
 		This.refreshEnv()
 	End if
 
