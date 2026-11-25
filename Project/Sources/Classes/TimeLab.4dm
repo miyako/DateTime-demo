@@ -25,6 +25,8 @@ property componentLine : Text
 property tool : cs.DateTime.DateTime
 property target : Text
 property _selfTestDone : Boolean
+property __page : Integer
+property __screenshotPath : Text
 
 Class constructor
 	This.instant:="2026-01-15T12:00:00.123Z"

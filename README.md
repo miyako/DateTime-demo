@@ -5,10 +5,14 @@ RFC3339 instant and any IANA zone, convert it with the component's real CLI, and
 time, the numeric offset and the raw protocol JSON side by side. A batch panel converts up to 256
 pairs per call so you can watch partial failures stay attached to their input row.
 
-![DateTime Lab form](docs/lab-static.png)
+![DateTime Lab, live window](docs/lab-runtime.png)
 
-The render above comes straight from `Project/Sources/Forms/Lab/form.4DForm`; the value fields are
-empty until the form runs and converts an instant.
+The window above is a real capture of the running form (`FORM SCREENSHOT` on 21.2 LTS, dark
+appearance) after `On Load` converted the default instant: Kathmandu `17:45`, `+05:45`. The static
+render below comes straight from `Project/Sources/Forms/Lab/form.4DForm`, so its value fields are
+empty:
+
+![DateTime Lab form](docs/lab-static.png)
 
 ## Run it
 
@@ -100,9 +104,19 @@ These are the things that cost time while building this, in order of how much th
    inside a loop body is not. `Match regex`/`Position` with `*` is the case-sensitive form.
 8. **Screenshots of a dialog need a second event cycle.** `FORM SCREENSHOT` right after
    `DIALOG` captures an empty window; the working recipe chains `CALL FORM` from the form method so
-   the screenshot runs after the page is painted (the `dialog_screenshot` helper method is kept in
-   `Project/Sources/Methods/`). The screenshot page parameter is **1-based**, while form page
-   indices are 0-based, so the content page is requested as `2`.
+   the screenshot runs after the page is painted. The screenshot page parameter is **1-based**,
+   while form page indices are 0-based, so the content page is requested as `2`.
+9. **A form-data object replaces the form class instance.** The generic `dialog_screenshot` helper
+   passes `{}` as the `DIALOG` form data. On a form that declares a `formClass`, that object *is*
+   `Form`, so `On Load` dies with `A function was expected` (317) on `Form.convertCurrent()` and the
+   capture shows the dimmed window behind the error dialog. Pass the class instance instead —
+   `Project/Sources/Methods/lab_screenshot.4dm` builds `cs.TimeLab.new()`, sets `__page` /
+   `__screenshotPath` on it, and reuses the same chained screenshot methods. The class must declare
+   those two properties or the compiler (rightly) complains about undeclared `Form.*` writes.
+10. **`FORM SCREENSHOT` in dark appearance is translucent.** The PNG has a real alpha channel: the
+    window background is ~9 % opaque dark, so viewing the raw file over white looks washed out. The
+    committed image is composited over `#1E1E1E`, which is what the form actually looks like.
+    `FORM theme` is a getter — there is no per-form way to force light rendering for a capture.
 
 ## Layout
 
@@ -111,20 +125,26 @@ Project/DateTime-demo.4DProject        project anchor, compatibilityVersion 2102
 Project/Sources/Classes/TimeLab.4dm    view model: state, presets, batch, self-test
 Project/Sources/Forms/Lab/             the single-window form and its object methods
 Project/Sources/Methods/Start.4dm      startup: reuse window, open "Lab"
+Project/Sources/Methods/lab_screenshot CLI capture of the running form (class-aware DIALOG)
 Project/Sources/Methods/Demo_SelfTest  invisible headless driver used by scripts/verify.py
 Project/Sources/dependencies.json      GitHub dependency miyako/DateTime 0.1.3
 scripts/fetch_dependency.py            headless stand-in for the Dependency Manager
 scripts/verify.py                      acceptance run with tool4d
 ```
 
-`docs/lab-static.png` is rendered directly from `Project/Sources/Forms/Lab/form.4DForm`.
+`docs/lab-runtime.png` is a live `FORM SCREENSHOT` of the running window, composited over the dark
+window background. `docs/lab-static.png` is rendered directly from
+`Project/Sources/Forms/Lab/form.4DForm`.
 
 ## Limitations
 
 - Windows is untested. The component reports `Windows-x64` there; the demo itself is plain 4D code.
 - The window is a fixed 1160 × 856 dialog, sized for a laptop screen; it does not reflow.
 - The batch grid is capped at 256 rows by the component's documented limit.
-- `Invisible` helper methods (`Demo_SelfTest`, `Demo_IgnoreError`, the screenshot chain) have no UI.
+- `Invisible` helper methods (`Demo_SelfTest`, `Demo_IgnoreError`, `Demo_LogError`, `lab_screenshot`,
+  the screenshot chain) have no UI.
+- The runtime screenshot was taken in dark appearance; the form is theme-neutral but its preview
+  render is light.
 
 ## License
 
