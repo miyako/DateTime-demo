@@ -1,0 +1,24 @@
+/* DateTime Lab — light dashboard over the dark header strip. */
+
+.header {
+	fill: #111827;
+	stroke: transparent;
+}
+
+.headerText {
+	color: #F9FAFB;
+}
+
+.headerDim {
+	color: #9CA3AF;
+}
+
+.mono {
+	font-family: "Menlo", "Consolas", monospace;
+	font-size: 12px;
+}
+
+.dim {
+	color: #6B7280;
+	font-size: 11px;
+}

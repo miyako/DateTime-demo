@@ -1,0 +1,17 @@
+# 4D tooling installed locally, not part of the demo
+/tools/4dform/
+/tools/4dlsp/
+
+# Dependency staged for headless runs (fetched by scripts/fetch_dependency.py)
+/Components/
+
+# Generated at runtime
+/Data/
+/DerivedData/
+/Project/DerivedData/
+/Settings/
+/*.4DZ
+/userPreferences.*/
+*.preview.png
+.DS_Store
+/.agents/

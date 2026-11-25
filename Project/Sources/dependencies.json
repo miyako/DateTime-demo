@@ -1,0 +1,9 @@
+{
+	"version": 2100,
+	"dependencies": {
+		"DateTime": {
+			"github": "miyako/DateTime",
+			"tag": "0.1.3"
+		}
+	}
+}
