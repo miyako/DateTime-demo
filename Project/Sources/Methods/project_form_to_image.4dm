@@ -26,8 +26,9 @@ If ($formPage<1)
 End if 
 
 var $file : 4D.File
+var $made : Boolean
 $file:=File($screenshotPath)
-$file.parent.create()
+$made:=$file.parent.create()
 
 var $width; $height; $pages : Integer
 FORM GET PROPERTIES($formName; $width; $height; $pages)

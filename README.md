@@ -85,35 +85,43 @@ These are the things that cost time while building this, in order of how much th
    well. The release's generated `Resources/en.lproj/syntaxEN.json` lists only
    `new()` for the class, so the compiler never learns the method signatures. The demo therefore
    ships with interpreted-runtime acceptance; compiling it in the IDE with the dependency installed
-   through the Dependencies panel is the supported developer path.
-3. **Static text objects cannot bind `Form.x`.** A `text` object has no data source, so every value
+   through the Dependencies panel is the supported developer path. That fresh verdict — exactly one
+   error and three warnings — is emitted by `Project/Sources/Methods/compile_report.4dm`.
+3. **Compiling finds what interpretation forgives.** Two defects only appeared once `Compile project`
+   ran: `$file.parent.create()` returns a Boolean, and using it as a bare statement is
+   `This function has been called as a procedure`; an `ON ERR CALL` handler also needs a prototype
+   (`#DECLARE($mode; $code; $text)`) or the compiler says
+   `The parameter $1 has not been explicitly declared` — declaring `var $1 : Variant` is not enough.
+   Both are fixed, and they are worth running a compile for even when the runtime is accepted
+   interpreted.
+4. **Static text objects cannot bind `Form.x`.** A `text` object has no data source, so every value
    on this form is an `input` with `enterable:false`, `borderStyle:"none"`, transparent fill and no
    focus ring. That is what makes the card read as a dashboard while staying data-bound.
-4. **Offsets are not always whole minutes.** Monrovia before 1972 answers
+5. **Offsets are not always whole minutes.** Monrovia before 1972 answers
    `1920-05-31T23:15:30.000-00:44:30` (−2670 s). Formatting offsets as `HH:MM` silently truncates
    this; the demo renders `±HH:MM[:SS]` and shows the seconds separately.
-5. **Errors arrive as JSON on stderr, wrapped in the generic envelope.** A rejection is
+6. **Errors arrive as JSON on stderr, wrapped in the generic envelope.** A rejection is
    `{ok:false, error:{code:"cli_error", message:"<the CLI's stderr JSON>"}}`. Printing `message`
    shows a wall of JSON; the demo parses it and keeps the raw text available.
-6. **Batch failures are not batch failures.** `convertBatch` returns `ok:true` for the call with
+7. **Batch failures are not batch failures.** `convertBatch` returns `ok:true` for the call with
    per-item `{ok:false, error}` results in input order. The grid colours rows individually and the
    header counts `5 ok · 3 item errors`; a demo that checks only the outer `ok` would call that run a
    success with three silent bad rows.
-7. **4D collections are 0-based, and `For each` over `Form.rows` needs a hoisted declaration** —
+8. **4D collections are 0-based, and `For each` over `Form.rows` needs a hoisted declaration** —
    `For each (var $row : Object; Form.rows)` inside a button method is fine, but `var $rule : Text`
    inside a loop body is not. `Match regex`/`Position` with `*` is the case-sensitive form.
-8. **Screenshots of a dialog need a second event cycle.** `FORM SCREENSHOT` right after
+9. **Screenshots of a dialog need a second event cycle.** `FORM SCREENSHOT` right after
    `DIALOG` captures an empty window; the working recipe chains `CALL FORM` from the form method so
    the screenshot runs after the page is painted. The screenshot page parameter is **1-based**,
    while form page indices are 0-based, so the content page is requested as `2`.
-9. **A form-data object replaces the form class instance.** The generic `dialog_screenshot` helper
+10. **A form-data object replaces the form class instance.** The generic `dialog_screenshot` helper
    passes `{}` as the `DIALOG` form data. On a form that declares a `formClass`, that object *is*
    `Form`, so `On Load` dies with `A function was expected` (317) on `Form.convertCurrent()` and the
    capture shows the dimmed window behind the error dialog. Pass the class instance instead —
    `Project/Sources/Methods/lab_screenshot.4dm` builds `cs.TimeLab.new()`, sets `__page` /
    `__screenshotPath` on it, and reuses the same chained screenshot methods. The class must declare
    those two properties or the compiler (rightly) complains about undeclared `Form.*` writes.
-10. **`FORM SCREENSHOT` in dark appearance is translucent.** The PNG has a real alpha channel: the
+11. **`FORM SCREENSHOT` in dark appearance is translucent.** The PNG has a real alpha channel: the
     window background is ~9 % opaque dark, so viewing the raw file over white looks washed out. The
     committed image is composited over `#1E1E1E`, which is what the form actually looks like.
     `FORM theme` is a getter — there is no per-form way to force light rendering for a capture.
@@ -126,6 +134,7 @@ Project/Sources/Classes/TimeLab.4dm    view model: state, presets, batch, self-t
 Project/Sources/Forms/Lab/             the single-window form and its object methods
 Project/Sources/Methods/Start.4dm      startup: reuse window, open "Lab"
 Project/Sources/Methods/lab_screenshot CLI capture of the running form (class-aware DIALOG)
+Project/Sources/Methods/compile_report raw `Compile project` verdict for the class-store chokepoint
 Project/Sources/Methods/Demo_SelfTest  invisible headless driver used by scripts/verify.py
 Project/Sources/dependencies.json      GitHub dependency miyako/DateTime 0.1.3
 scripts/fetch_dependency.py            headless stand-in for the Dependency Manager

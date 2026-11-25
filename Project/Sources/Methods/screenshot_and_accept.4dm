@@ -10,8 +10,9 @@ If ($screenshotPath#"")
 	FORM SCREENSHOT($screenshot)
 	
 	var $file : 4D.File
+var $made : Boolean
 	$file:=File($screenshotPath)
-	$file.parent.create()
+	$made:=$file.parent.create()
 	WRITE PICTURE FILE($file.platformPath; $screenshot)
 End if 
 

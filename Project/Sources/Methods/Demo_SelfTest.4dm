@@ -15,8 +15,9 @@ $report:=$lab.selfTest()
 
 If ($path#"")
 	var $file : 4D.File
+var $made : Boolean
 	$file:=File($path)
-	$file.parent.create()
+	$made:=$file.parent.create()
 	$file.setText(JSON Stringify($report; *))
 End if 
 
