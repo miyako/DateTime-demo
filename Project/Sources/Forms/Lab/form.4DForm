@@ -154,7 +154,8 @@
 					"height": 26,
 					"events": [
 						"onClick"
-					]
+					],
+					"method": "ObjectMethods/popZone.4dm"
 				},
 				"btnConvert": {
 					"type": "button",
@@ -166,6 +167,7 @@
 					"events": [
 						"onClick"
 					],
+					"method": "ObjectMethods/btnConvert.4dm",
 					"tooltip": "Run cs.DateTime.DateTime.convert(instant; zone)",
 					"defaultButton": true
 				},
@@ -179,6 +181,7 @@
 					"events": [
 						"onClick"
 					],
+					"method": "ObjectMethods/btnCopy.4dm",
 					"tooltip": "Copy the last raw component value"
 				},
 				"lblLocal": {
@@ -355,6 +358,7 @@
 					"events": [
 						"onDoubleClick"
 					],
+					"method": "ObjectMethods/lbBatch.4dm",
 					"columns": [
 						{
 							"name": "idx",
@@ -445,6 +449,7 @@
 					"events": [
 						"onClick"
 					],
+					"method": "ObjectMethods/btnRunBatch.4dm",
 					"tooltip": "convertBatch() \u2014 one process, ordered results"
 				},
 				"btnLoadBatch": {
@@ -457,6 +462,7 @@
 					"events": [
 						"onClick"
 					],
+					"method": "ObjectMethods/btnLoadBatch.4dm",
 					"tooltip": "8 rows, 3 of them invalid"
 				},
 				"btnStress": {
@@ -469,6 +475,7 @@
 					"events": [
 						"onClick"
 					],
+					"method": "ObjectMethods/btnStress.4dm",
 					"tooltip": "The transport maximum for one batch"
 				},
 				"btnClear": {
@@ -481,6 +488,7 @@
 					"events": [
 						"onClick"
 					],
+					"method": "ObjectMethods/btnClear.4dm",
 					"tooltip": "Empty the batch"
 				},
 				"inpBatchNote": {
@@ -518,6 +526,7 @@
 					"events": [
 						"onClick"
 					],
+					"method": "ObjectMethods/btnPresetDST.4dm",
 					"tooltip": "Paris, 2026-03-29T01:00:00Z \u2014 offset jumps from +01:00 to +02:00"
 				},
 				"btnPresetMonrovia": {
@@ -530,6 +539,7 @@
 					"events": [
 						"onClick"
 					],
+					"method": "ObjectMethods/btnPresetMonrovia.4dm",
 					"tooltip": "1920 \u2014 a historical offset with seconds precision"
 				},
 				"btnPresetKathmandu": {
@@ -542,6 +552,7 @@
 					"events": [
 						"onClick"
 					],
+					"method": "ObjectMethods/btnPresetKathmandu.4dm",
 					"tooltip": "Nepal's 45-minute offset"
 				},
 				"btnPresetKiritimati": {
@@ -554,6 +565,7 @@
 					"events": [
 						"onClick"
 					],
+					"method": "ObjectMethods/btnPresetKiritimati.4dm",
 					"tooltip": "Across the date line: the local date is tomorrow"
 				},
 				"btnPresetLowercase": {
@@ -566,6 +578,7 @@
 					"events": [
 						"onClick"
 					],
+					"method": "ObjectMethods/btnPresetLowercase.4dm",
 					"tooltip": "Rejected: RFC3339 requires uppercase T and Z"
 				},
 				"btnPresetFraction": {
@@ -578,6 +591,7 @@
 					"events": [
 						"onClick"
 					],
+					"method": "ObjectMethods/btnPresetFraction.4dm",
 					"tooltip": "Rejected: more than three fraction digits is never truncated"
 				},
 				"btnPresetUnknownZone": {
@@ -590,6 +604,7 @@
 					"events": [
 						"onClick"
 					],
+					"method": "ObjectMethods/btnPresetUnknownZone.4dm",
 					"tooltip": "Rejected: unknown IANA zone, no GMT fallback"
 				},
 				"btnPresetLadder": {
@@ -602,6 +617,7 @@
 					"events": [
 						"onClick"
 					],
+					"method": "ObjectMethods/btnPresetLadder.4dm",
 					"tooltip": "Batch: one instant across 30 zones, in input order"
 				}
 			}

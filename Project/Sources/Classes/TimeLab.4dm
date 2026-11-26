@@ -49,7 +49,7 @@ Class constructor
 		This.target:="Windows-x64"
 	End if
 	This._selfTestDone:=False
-	This.zonePicker:=New object("values"; This.zones(); "index"; 0; "currentValue"; "")
+	This.zonePicker:=New object("values"; This.zones(); "index"; This.zones().indexOf(This.zone); "currentValue"; This.zone)
 	This.envDetail:=""
 	This.rulesText:=This.buildRules()
 	This.tool:=cs.DateTime.DateTime.new(This.target)

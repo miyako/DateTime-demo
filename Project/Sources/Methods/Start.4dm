@@ -12,10 +12,10 @@ If (Count parameters=0)
 	var $i : Integer
 	For ($i; 1; Size of array($windows))
 		$window:=$windows{$i}
-		If (Window process($window)=1) && (Get window title($window)=$title)
+		If (Window process($window)=Current process) && (Get window title($window)=$title)
 			var $left; $top; $right; $bottom : Integer
 			GET WINDOW RECT($left; $top; $right; $bottom; $window)
-			CALL FORM($window; Formula(SET WINDOW RECT($left; $top; $right; $bottom; $window)))
+			SET WINDOW RECT($left; $top; $right; $bottom; $window)
 			return 
 		End if 
 	End for 
